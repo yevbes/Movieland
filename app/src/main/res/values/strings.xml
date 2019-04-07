@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Movieland</string>
+
+    <!-- MENU SECTION -->
+    <string name="personal_area">Personal area</string>
+    <string name="action_top_rated_movies">Top Rated</string>
+    <string name="action_favorite">Favorite movies</string>
+    <string name="action_search">Search</string>
+    <!-- END SECTION -->
+
+    <!-- MAIN ACTIVITY SECTION -->
+    <string name="navigation_drawer_open">Navigation opened</string>
+    <string name="navigation_drawer_close">Navigation closed</string>
+    <string name="double_back_to_exit">Please click BACK again to exit</string>
+    <!-- END SECTION -->
+
+</resources>
