@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/menuToggle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingBottom="@dimen/default_linear_layout_padding"
+        android:paddingLeft="@dimen/default_linear_layout_padding"
+        android:paddingRight="@dimen/default_linear_layout_padding"
+        android:paddingTop="56dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <!-- TODO: change textview per imgview logo and design -->
+    <TextView
+            android:id="@+id/header_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:text="@string/app_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+            android:id="@+id/header_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:text="@string/app_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toTopOf="@id/header_logo"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

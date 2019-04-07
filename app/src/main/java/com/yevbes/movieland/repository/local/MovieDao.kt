@@ -1,8 +1,8 @@
-package com.yevbes.movieland.service.model.dao
+package com.yevbes.movieland.repository.local
 
 import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
-import com.yevbes.movieland.service.model.entities.Movie
+import com.yevbes.movieland.model.db.Movie
 
 @Dao
 interface MovieDao {
@@ -16,9 +16,9 @@ interface MovieDao {
     @Delete
     fun delete(movie: Movie)
 
-    @Query("DELETE FROM movie_table")
+    @Query("DELETE FROM movie")
     fun deleteAllMovies()
 
-    @Query("SELECT * FROM movie_table ORDER BY date")
+    @Query("SELECT * FROM movie ORDER BY title")
     fun getAllMovies() : LiveData<List<Movie>>
 }
