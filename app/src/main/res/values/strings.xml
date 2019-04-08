@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Movieland</string>
 
+    <string name="generic_error">Something went wrong!</string>
+    <string name="recycler_empty_title">Your records appear here</string>
+    <string name="recycler_error_retry">Retry</string>
+
     <!-- MENU SECTION -->
     <string name="personal_area">Personal area</string>
     <string name="action_top_rated_movies">Top Rated</string>

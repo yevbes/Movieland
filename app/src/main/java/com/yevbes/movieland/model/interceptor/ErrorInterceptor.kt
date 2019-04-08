@@ -1,6 +1,6 @@
-package com.yevbes.movieland.repository.interceptor
+package com.yevbes.movieland.model.interceptor
 
-import com.yevbes.movieland.repository.error.MovielandException
+import com.yevbes.movieland.model.error.MovielandException
 import okhttp3.Interceptor
 import okhttp3.Response
 

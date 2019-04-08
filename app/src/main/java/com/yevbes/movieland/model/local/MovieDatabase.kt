@@ -1,4 +1,4 @@
-package com.yevbes.movieland.repository.local
+package com.yevbes.movieland.model.local
 
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.Database

@@ -1,7 +1,7 @@
-package com.yevbes.movieland.repository.remote
+package com.yevbes.movieland.model.remote
 
 import com.yevbes.movieland.App
-import com.yevbes.movieland.repository.interceptor.HeaderInterceptor
+import com.yevbes.movieland.model.interceptor.HeaderInterceptor
 import com.yevbes.movieland.utils.AppConfig
 import okhttp3.Cache
 import okhttp3.OkHttpClient

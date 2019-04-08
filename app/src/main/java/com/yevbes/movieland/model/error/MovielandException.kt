@@ -1,4 +1,4 @@
-package com.yevbes.movieland.repository.error
+package com.yevbes.movieland.model.error
 
 data class MovielandException(
     val code: Int, override val message: String

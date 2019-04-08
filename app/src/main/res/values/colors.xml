@@ -9,4 +9,8 @@
 
     <color name="colorRatingCircleProgressOne">#FF5722</color>
     <color name="colorRatingCircleProgressTwo">#FF9800</color>
+
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#757575</color>
+    <color name="icons">#FFFFFF</color>
 </resources>

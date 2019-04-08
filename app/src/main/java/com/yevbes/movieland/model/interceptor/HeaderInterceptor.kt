@@ -1,4 +1,4 @@
-package com.yevbes.movieland.repository.interceptor
+package com.yevbes.movieland.model.interceptor
 
 import com.yevbes.movieland.utils.AppConfig
 import com.yevbes.movieland.utils.ConstantManager

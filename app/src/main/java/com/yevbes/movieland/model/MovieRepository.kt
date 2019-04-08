@@ -1,14 +1,14 @@
-package com.yevbes.movieland.repository
+package com.yevbes.movieland.model
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.yevbes.movieland.App
 import com.yevbes.movieland.model.db.Movie
 import com.yevbes.movieland.model.res.MoviesRes
-import com.yevbes.movieland.repository.local.MovieDao
-import com.yevbes.movieland.repository.local.MovieDatabase
-import com.yevbes.movieland.repository.remote.RestService
-import com.yevbes.movieland.repository.remote.ServiceGenerator
+import com.yevbes.movieland.model.local.MovieDao
+import com.yevbes.movieland.model.local.MovieDatabase
+import com.yevbes.movieland.model.remote.RestService
+import com.yevbes.movieland.model.remote.ServiceGenerator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,7 +28,7 @@ object MovieRepository {
         webservice.getTopRatedMovies().enqueue(
             object : Callback<MoviesRes> {
                 override fun onFailure(call: Call<MoviesRes>, t: Throwable) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
                 }
 
                 override fun onResponse(call: Call<MoviesRes>, response: Response<MoviesRes>) {

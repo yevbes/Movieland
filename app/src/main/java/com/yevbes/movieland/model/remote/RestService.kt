@@ -1,4 +1,4 @@
-package com.yevbes.movieland.repository.remote
+package com.yevbes.movieland.model.remote
 
 import com.yevbes.movieland.model.res.ConfigurationRes
 import com.yevbes.movieland.model.res.MoviesRes
