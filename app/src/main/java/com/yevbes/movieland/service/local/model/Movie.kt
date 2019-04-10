@@ -1,4 +1,4 @@
-package com.yevbes.movieland.model.db
+package com.yevbes.movieland.service.local.model
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity

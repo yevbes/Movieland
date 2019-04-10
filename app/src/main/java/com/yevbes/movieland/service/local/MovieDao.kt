@@ -1,8 +1,8 @@
-package com.yevbes.movieland.model.local
+package com.yevbes.movieland.service.local
 
 import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
-import com.yevbes.movieland.model.db.Movie
+import com.yevbes.movieland.service.local.model.Movie
 
 @Dao
 interface MovieDao {

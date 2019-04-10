@@ -1,4 +1,4 @@
-package com.yevbes.movieland.model.res
+package com.yevbes.movieland.service.remote.model.res
 
 import com.google.gson.annotations.SerializedName
 

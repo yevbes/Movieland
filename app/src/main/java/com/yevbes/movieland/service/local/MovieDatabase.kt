@@ -1,11 +1,11 @@
-package com.yevbes.movieland.model.local
+package com.yevbes.movieland.service.local
 
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
-import com.yevbes.movieland.model.db.Movie
+import com.yevbes.movieland.service.local.model.Movie
 
 @Database(entities = [Movie::class], version = 1)
 abstract class MovieDatabase : RoomDatabase() {

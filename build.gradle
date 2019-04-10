@@ -10,6 +10,7 @@ buildscript {
     ext.dagger_version = '2.21'
     ext.support_version = '28.0.0'
     ext.glide_version = '4.9.0'
+    ext.paging_version = '1.0.1'
     ext.circle_progress_version = '1.0'
     repositories {
         google()

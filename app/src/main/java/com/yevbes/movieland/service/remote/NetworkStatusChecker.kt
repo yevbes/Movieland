@@ -1,4 +1,4 @@
-package com.yevbes.movieland.utils
+package com.yevbes.movieland.service.remote
 
 import android.content.Context
 import android.net.ConnectivityManager

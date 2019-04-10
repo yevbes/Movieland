@@ -13,5 +13,8 @@ interface ConstantManager {
         // NavigationDrawer actions
         const val ACTION_TOP_RATED_MOVIES = 1
         const val ACTION_FAVORITE_MOVIES = 2
+
+        // Paging
+        const val LOADING_PAGE_SIZE = 5
     }
 }

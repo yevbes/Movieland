@@ -1,12 +1,13 @@
-package com.yevbes.movieland.model.remote
+package com.yevbes.movieland.service.remote
 
 import com.yevbes.movieland.App
-import com.yevbes.movieland.model.interceptor.HeaderInterceptor
+import com.yevbes.movieland.service.remote.interceptor.HeaderInterceptor
 import com.yevbes.movieland.utils.AppConfig
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ServiceGenerator {
@@ -22,6 +23,7 @@ class ServiceGenerator {
         private val sBuilder = Retrofit.Builder()
             .baseUrl(AppConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 
         // Create Rest Service
         @JvmStatic

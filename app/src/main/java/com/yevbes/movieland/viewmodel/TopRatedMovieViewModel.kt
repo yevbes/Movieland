@@ -2,47 +2,31 @@ package com.yevbes.movieland.viewmodel
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
-import com.yevbes.movieland.model.res.MoviesRes
-import com.yevbes.movieland.model.MovieRepository
-import android.R
-import android.databinding.BindingAdapter
-import android.widget.ImageView
-import com.bumptech.glide.Glide
-import com.yevbes.movieland.App
+import android.arch.paging.PagedList
+import com.yevbes.movieland.service.MovieRepository
+import com.yevbes.movieland.service.remote.model.res.MoviesRes
+import io.reactivex.disposables.CompositeDisposable
 
 
 class TopRatedMovieViewModel: ViewModel() {
 
-    companion object {
-        @BindingAdapter("bind:imageUrl")
-        fun loadImage(view: ImageView, imageUrl: String) {
-            val imgUrl =
-            Glide.with(App.getApplication())
-                .load(imageUrl)
-//            .placeholder(lottieAnimationView.drawable)
-                .into(view)
-        }
-    }
-
-    private var repository: MovieRepository = MovieRepository
+    private val compositeDisposable = CompositeDisposable()
+    private var repository: MovieRepository = MovieRepository(compositeDisposable)
 
     // LiveData
-    private var allMovies: LiveData<List<MoviesRes.Result>>
+    private var allMovies: LiveData<PagedList<MoviesRes.Result>>
 
     init {
-        allMovies = repository.getAllMovies()
+        allMovies = repository.moviesRes
     }
 
-    fun getAllMovies() : LiveData<List<MoviesRes.Result>>{
+    fun getAllMovies() : LiveData<PagedList<MoviesRes.Result>>{
         return allMovies
     }
 
-    fun getImageUrl(): String {
-        // The URL will usually come from a model (i.e Profile)
-        //return AppConfig.BASE_IMAGE_URL + AppConfig.IMAGE_SIZE + currentMovie.posterPath
-        return AppConfig.BASE_IMAGE_URL + AppConfig.IMAGE_SIZE
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
     }
-
-
-
 }

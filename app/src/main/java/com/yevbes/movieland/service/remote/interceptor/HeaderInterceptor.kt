@@ -1,4 +1,4 @@
-package com.yevbes.movieland.model.interceptor
+package com.yevbes.movieland.service.remote.interceptor
 
 import com.yevbes.movieland.utils.AppConfig
 import com.yevbes.movieland.utils.ConstantManager
