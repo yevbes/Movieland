@@ -4,6 +4,8 @@
     <string name="generic_error">Something went wrong!</string>
     <string name="recycler_empty_title">Your records appear here</string>
     <string name="recycler_error_retry">Retry</string>
+    <string name="error_tap_to_retry">ERROR !! Tap to retry.</string>
+
 
     <!-- MENU SECTION -->
     <string name="personal_area">Personal area</string>

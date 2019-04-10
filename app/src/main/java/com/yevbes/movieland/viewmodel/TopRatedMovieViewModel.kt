@@ -4,11 +4,11 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.paging.PagedList
 import com.yevbes.movieland.service.MovieRepository
+import com.yevbes.movieland.service.remote.State
 import com.yevbes.movieland.service.remote.model.res.MoviesRes
 import io.reactivex.disposables.CompositeDisposable
 
-
-class TopRatedMovieViewModel: ViewModel() {
+class TopRatedMovieViewModel : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
     private var repository: MovieRepository = MovieRepository(compositeDisposable)
@@ -20,13 +20,24 @@ class TopRatedMovieViewModel: ViewModel() {
         allMovies = repository.moviesRes
     }
 
-    fun getAllMovies() : LiveData<PagedList<MoviesRes.Result>>{
-        return allMovies
+    fun retry() {
+        return repository.retry()
     }
 
+    fun getAllMovies(): LiveData<PagedList<MoviesRes.Result>> {
+        return allMovies
+    }
 
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
+    }
+
+    fun listIsEmpty(): Boolean {
+        return repository.listIsEmpty()
+    }
+
+    fun getState(): LiveData<State> {
+        return repository.getState()
     }
 }

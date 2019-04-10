@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportFragmentManager
                     .beginTransaction()
                     .replace(
-                        R.id.fragmentContainer,
+                        R.id.fragment_container,
                         topRatedMoviesFragment,
                         getString(R.string.action_top_rated_movies)
                     )

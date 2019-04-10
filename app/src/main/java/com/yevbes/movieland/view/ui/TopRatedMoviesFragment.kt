@@ -13,9 +13,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.yevbes.movieland.App
 import com.yevbes.movieland.R
+import com.yevbes.movieland.service.remote.State
 import com.yevbes.movieland.service.remote.model.res.MoviesRes
 import com.yevbes.movieland.view.adapter.MovieAdapter
 import com.yevbes.movieland.viewmodel.TopRatedMovieViewModel
+import kotlinx.android.synthetic.main.fragment_top_rated_movies.*
 
 
 /**
@@ -41,15 +43,24 @@ class TopRatedMoviesFragment : Fragment() {
         rv.layoutManager = mLayoutManager
         rv.setHasFixedSize(true)
 
-        val movieAdapter = MovieAdapter()
+        topRatedMovieViewModel = ViewModelProviders.of(this).get(TopRatedMovieViewModel::class.java)
+        val movieAdapter = MovieAdapter(topRatedMovieViewModel.retry())
         rv.adapter = movieAdapter
 
-        topRatedMovieViewModel = ViewModelProviders.of(this).get(TopRatedMovieViewModel::class.java)
         topRatedMovieViewModel.getAllMovies().observe(this,
             Observer<PagedList<MoviesRes.Result>> { t ->
                 movieAdapter.submitList(t)
 //               movieAdapter.setMovies(t!!)
             })
+
+        tv_error.setOnClickListener { topRatedMovieViewModel.retry() }
+        topRatedMovieViewModel.getState().observe(this, Observer { state ->
+            progress_bar.visibility = if (topRatedMovieViewModel.listIsEmpty() && state == State.LOADING) View.VISIBLE else View.GONE
+            tv_error.visibility = if (topRatedMovieViewModel.listIsEmpty() && state == State.ERROR) View.VISIBLE else View.GONE
+            if (!topRatedMovieViewModel.listIsEmpty()) {
+                movieAdapter.setState(state ?: State.DONE)
+            }
+        })
     }
 
 
