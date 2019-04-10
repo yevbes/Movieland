@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (savedInstanceState == null) {
             loadFragment(ConstantManager.ACTION_TOP_RATED_MOVIES)
             navigationView.menu.findItem(R.id.nav_top_rated_movies).isChecked = true
+
             title = resources.getString(R.string.action_top_rated_movies)
         }else{
             title = savedInstanceState.getCharSequence(ConstantManager.KEY_STATE_TITLE)
@@ -82,6 +83,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun setupViews() {
+
         toolbar = findViewById(R.id.tb)
         drawerLayout = findViewById(R.id.dl)
         navigationView = findViewById(R.id.nv)

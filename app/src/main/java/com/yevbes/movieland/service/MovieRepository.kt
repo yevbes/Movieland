@@ -17,11 +17,12 @@ import com.yevbes.movieland.service.remote.paging.MovieDataSourceFactory
 import com.yevbes.movieland.utils.ConstantManager
 import io.reactivex.disposables.CompositeDisposable
 
-class MovieRepository(compositeDisposable: CompositeDisposable) {
+object MovieRepository {
     private var movieDao: MovieDao
     private val webservice: RestService
     var moviesRes: LiveData<PagedList<MoviesRes.Result>>
     private val movieDataSourceFactory: MovieDataSourceFactory
+    private val compositeDisposable : CompositeDisposable = CompositeDisposable()
 
 
     init {
@@ -48,10 +49,17 @@ class MovieRepository(compositeDisposable: CompositeDisposable) {
         movieDataSourceFactory.liveData.value?.retry()
     }
 
+    fun invalidate(){
+        movieDataSourceFactory.liveData.value?.invalidate()
+    }
+
     fun listIsEmpty(): Boolean {
         return moviesRes.value?.isEmpty() ?: true
     }
 
+    fun disposeCompositeDisposable() {
+        compositeDisposable.dispose()
+    }
 
     fun insert(movie: Movie) {
         movieDao.insert(movie)

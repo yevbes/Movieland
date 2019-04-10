@@ -65,7 +65,6 @@ class MovieDataSource(
     }
 
 
-
     private fun updateState(state: State) {
         this.state.postValue(state)
     }
