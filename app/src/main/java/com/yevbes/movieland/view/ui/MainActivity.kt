@@ -22,6 +22,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var doubleBackToExitPressedOnce = false
     private var currentDrawerItemID: Int = 0
 
+    /**
+     * Top rated movies fragment
+     */
     private val topRatedMoviesFragment: TopRatedMoviesFragment by lazy {
         TopRatedMoviesFragment()
     }
@@ -80,6 +83,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerToggle.onConfigurationChanged(newConfig)
     }
 
+    /**
+     * Setup Toolbar, NavigationDrawer
+     */
     private fun setupViews() {
         toolbar = tb as Toolbar
 
@@ -106,6 +112,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerToggle.syncState()
     }
 
+    /**
+     * Exit on double press
+     */
     override fun onBackPressed() {
         if (dl.isDrawerOpen(GravityCompat.START)) {
             dl.closeDrawer(GravityCompat.START)
@@ -144,6 +153,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    /**
+     * Clear backs tack on replace fragment
+     */
     private fun clearBackStack() {
         val fragmentManager = supportFragmentManager
         for (i in 0 until fragmentManager.backStackEntryCount) {

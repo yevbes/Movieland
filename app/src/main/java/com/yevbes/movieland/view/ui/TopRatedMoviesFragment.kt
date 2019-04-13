@@ -3,7 +3,6 @@ package com.yevbes.movieland.view.ui
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.paging.PagedList
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
@@ -17,8 +16,7 @@ import com.yevbes.movieland.viewmodel.TopRatedMovieViewModel
 import kotlinx.android.synthetic.main.fragment_top_rated_movies.*
 
 /**
- * A simple [Fragment] subclass.
- *
+ * Top Rated Movies Fragment
  */
 class TopRatedMoviesFragment : Fragment() {
     private lateinit var topRatedMovieViewModel: TopRatedMovieViewModel
@@ -34,17 +32,18 @@ class TopRatedMoviesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_top_rated_movies, container, false)
+        binding = FragmentTopRatedMoviesBinding.inflate(inflater, container, false)
 //        return inflater.inflate(R.layout.fragment_top_rated_movies, container, false)
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         recycler_view.layoutManager = GridLayoutManager(
             activity, resources.getInteger(R.integer.grid_layout)
         )
+
         recycler_view.setHasFixedSize(true)
 
         topRatedMovieViewModel = ViewModelProviders.of(this).get(TopRatedMovieViewModel::class.java)
@@ -53,22 +52,42 @@ class TopRatedMoviesFragment : Fragment() {
         movieAdapter = MovieAdapter { topRatedMovieViewModel.retry() }
         recycler_view.adapter = movieAdapter
 
+        // Retry load data on Error
+        tv_error.setOnClickListener {
+            topRatedMovieViewModel.retry()
+        }
+
+        // Observer for movies list
         topRatedMovieViewModel.getAllMovies().observe(this,
             Observer<PagedList<Movie>> { t ->
                 movieAdapter.submitList(t)
-//               movieAdapter.setMovies(t!!)
             })
 
-        tv_error.setOnClickListener { topRatedMovieViewModel.retry() }
+        // Observer for state
         topRatedMovieViewModel.getState().observe(this, Observer { state ->
             progress_bar.visibility =
-                if (topRatedMovieViewModel.listIsEmpty() && state == State.LOADING) View.VISIBLE else View.GONE
+                if (topRatedMovieViewModel.listIsEmpty() && state == State.LOADING)
+                    View.VISIBLE
+                else
+                    View.GONE
+
             tv_error.visibility =
-                if (topRatedMovieViewModel.listIsEmpty() && state == State.ERROR) View.VISIBLE else View.GONE
+                if (topRatedMovieViewModel.listIsEmpty() && state == State.ERROR)
+                    View.VISIBLE
+                else
+                    View.GONE
+
+            srl.visibility =
+                if (topRatedMovieViewModel.listIsEmpty() && state == State.DONE)
+                    View.VISIBLE
+                else
+                    View.GONE
+
             if (!topRatedMovieViewModel.listIsEmpty()) {
                 movieAdapter.setState(state ?: State.DONE)
             }
 
+            // Observe for loading Swipe Refresh
             topRatedMovieViewModel.isLoadingLive().observe(this, Observer { t ->
                 if (t!!) {
                     if (state == State.DONE)

@@ -18,6 +18,8 @@ class MovieDataSource(
 ): PageKeyedDataSource<Int, Movie>() {
 
     var state: MutableLiveData<State> = MutableLiveData()
+
+    // Completable for emit onError or onComplete
     private var retryCompletable: Completable? = null
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Movie>) {

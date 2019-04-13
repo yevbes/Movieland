@@ -19,7 +19,9 @@ class ListFooterViewHolder(view: View): RecyclerView.ViewHolder(view) {
         fun create(retry: () -> Unit, parent: ViewGroup): ListFooterViewHolder {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.movie_item_footer, parent, false)
-            view.tv_error.setOnClickListener { retry() }
+            view.tv_error.setOnClickListener {
+                retry()
+            }
             return ListFooterViewHolder(view)
         }
     }

@@ -14,6 +14,9 @@ class MovieAdapter(private val retry: () -> Unit): PagedListAdapter<Movie, Recyc
     private val FOOTER_VIEW_TYPE = 2
     private var state = State.LOADING
 
+    /**
+     * On create view holder
+     */
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
         return when(p1) {
             DATA_VIEW_TYPE -> {
