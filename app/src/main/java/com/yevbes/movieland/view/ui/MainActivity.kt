@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -14,13 +13,12 @@ import android.view.View
 import android.widget.Toast
 import com.yevbes.movieland.R
 import com.yevbes.movieland.utils.ConstantManager
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var toolbar: Toolbar
     private lateinit var drawerToggle: ActionBarDrawerToggle
-    private lateinit var drawerLayout: DrawerLayout
-    private lateinit var navigationView: NavigationView
     private var doubleBackToExitPressedOnce = false
     private var currentDrawerItemID: Int = 0
 
@@ -38,7 +36,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setupViews()
         if (savedInstanceState == null) {
             loadFragment(ConstantManager.ACTION_TOP_RATED_MOVIES)
-            navigationView.menu.findItem(R.id.nav_top_rated_movies).isChecked = true
+            nv.menu.findItem(R.id.nav_top_rated_movies).isChecked = true
 
             title = resources.getString(R.string.action_top_rated_movies)
         }else{
@@ -58,7 +56,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private inline fun <T : View> T.postEx(crossinline callback: T.() -> Unit) = post { callback() }
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        drawerLayout.postEx { closeDrawer(GravityCompat.START) }
+        dl.postEx { closeDrawer(GravityCompat.START) }
         when (p0.itemId) {
             R.id.nav_top_rated_movies -> {
                 if (currentDrawerItemID != ConstantManager.ACTION_TOP_RATED_MOVIES) {
@@ -83,10 +81,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun setupViews() {
-
-        toolbar = findViewById(R.id.tb)
-        drawerLayout = findViewById(R.id.dl)
-        navigationView = findViewById(R.id.nv)
+        toolbar = tb as Toolbar
 
         setSupportActionBar(toolbar)
         setTitle(R.string.app_name)
@@ -97,23 +92,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         toolbar.setNavigationOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
+            dl.openDrawer(GravityCompat.START)
         }
 
         drawerToggle = ActionBarDrawerToggle(
-            this, drawerLayout, toolbar,
+            this, dl, toolbar,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
 
-        navigationView.setNavigationItemSelectedListener(this)
+        nv.setNavigationItemSelectedListener(this)
 
-        drawerLayout.addDrawerListener(drawerToggle)
+        dl.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
     }
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
+        if (dl.isDrawerOpen(GravityCompat.START)) {
+            dl.closeDrawer(GravityCompat.START)
         } else {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed()

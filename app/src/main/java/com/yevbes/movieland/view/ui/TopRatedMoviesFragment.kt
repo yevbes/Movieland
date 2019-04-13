@@ -1,25 +1,20 @@
 package com.yevbes.movieland.view.ui
 
-
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.paging.PagedList
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.yevbes.movieland.App
+import android.support.v7.widget.GridLayoutManager
+import android.view.*
 import com.yevbes.movieland.R
 import com.yevbes.movieland.databinding.FragmentTopRatedMoviesBinding
+import com.yevbes.movieland.service.Movie
 import com.yevbes.movieland.service.remote.State
-import com.yevbes.movieland.service.remote.model.res.MoviesRes
 import com.yevbes.movieland.view.adapter.MovieAdapter
 import com.yevbes.movieland.viewmodel.TopRatedMovieViewModel
 import kotlinx.android.synthetic.main.fragment_top_rated_movies.*
-
 
 /**
  * A simple [Fragment] subclass.
@@ -29,6 +24,11 @@ class TopRatedMoviesFragment : Fragment() {
     private lateinit var topRatedMovieViewModel: TopRatedMovieViewModel
     private lateinit var movieAdapter: MovieAdapter
     private lateinit var binding: FragmentTopRatedMoviesBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,17 +42,19 @@ class TopRatedMoviesFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val mLayoutManager = LinearLayoutManager(App.getApplication())
-        recycler_view.layoutManager = mLayoutManager
+        recycler_view.layoutManager = GridLayoutManager(
+            activity, resources.getInteger(R.integer.grid_layout)
+        )
         recycler_view.setHasFixedSize(true)
 
         topRatedMovieViewModel = ViewModelProviders.of(this).get(TopRatedMovieViewModel::class.java)
         binding.viewModel = topRatedMovieViewModel
+
         movieAdapter = MovieAdapter { topRatedMovieViewModel.retry() }
         recycler_view.adapter = movieAdapter
 
         topRatedMovieViewModel.getAllMovies().observe(this,
-            Observer<PagedList<MoviesRes.Result>> { t ->
+            Observer<PagedList<Movie>> { t ->
                 movieAdapter.submitList(t)
 //               movieAdapter.setMovies(t!!)
             })
@@ -76,5 +78,10 @@ class TopRatedMoviesFragment : Fragment() {
                 }
             })
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_top_rated_movies,menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

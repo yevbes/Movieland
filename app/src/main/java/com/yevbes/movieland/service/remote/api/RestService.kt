@@ -1,7 +1,7 @@
-package com.yevbes.movieland.service.remote
+package com.yevbes.movieland.service.remote.api
 
+import com.yevbes.movieland.service.Movie
 import com.yevbes.movieland.service.remote.model.res.ConfigurationRes
-import com.yevbes.movieland.service.remote.model.res.MoviesRes
 import com.yevbes.movieland.utils.AppConfig.Companion.LANGUAGE_REQUEST_PARAM
 import com.yevbes.movieland.utils.AppConfig.Companion.PAGE_REQUEST_PARAM
 import io.reactivex.Single
@@ -18,10 +18,10 @@ interface RestService {
     fun getTopRatedMovies(
         @Query(LANGUAGE_REQUEST_PARAM) language: String,
         @Query(PAGE_REQUEST_PARAM) page: Int
-    ): Single<MoviesRes>
+    ): Single<ArrayList<Movie>>
 
 
     @GET("discover/movie")
     fun discoverMovie(
-    ): Single<MoviesRes>
+    ): Single<ArrayList<Movie>>
 }

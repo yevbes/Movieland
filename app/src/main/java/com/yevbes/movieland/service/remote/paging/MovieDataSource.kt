@@ -2,10 +2,10 @@ package com.yevbes.movieland.service.remote.paging
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.paging.PageKeyedDataSource
-import com.yevbes.movieland.service.remote.RestService
-import com.yevbes.movieland.service.remote.ServiceGenerator
+import com.yevbes.movieland.service.Movie
 import com.yevbes.movieland.service.remote.State
-import com.yevbes.movieland.service.remote.model.res.MoviesRes
+import com.yevbes.movieland.service.remote.api.RestService
+import com.yevbes.movieland.service.remote.api.ServiceGenerator
 import com.yevbes.movieland.utils.AppConfig
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,12 +15,12 @@ import io.reactivex.schedulers.Schedulers
 
 class MovieDataSource(
     private val compositeDisposable: CompositeDisposable
-): PageKeyedDataSource<Int, MoviesRes.Result>() {
+): PageKeyedDataSource<Int, Movie>() {
 
     var state: MutableLiveData<State> = MutableLiveData()
     private var retryCompletable: Completable? = null
 
-    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, MoviesRes.Result>) {
+    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Movie>) {
         updateState(State.LOADING)
         compositeDisposable.add(
             ServiceGenerator.createService(RestService::class.java)
@@ -29,7 +29,7 @@ class MovieDataSource(
                     {
                         response ->
                             updateState(State.DONE)
-                            callback.onResult(response.results, null, 2)
+                            callback.onResult(response, null, 2)
                     },
                     {
                         updateState(State.ERROR)
@@ -41,7 +41,7 @@ class MovieDataSource(
         )
     }
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, MoviesRes.Result>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         updateState(State.LOADING)
         compositeDisposable.add(
             ServiceGenerator.createService(RestService::class.java)
@@ -49,7 +49,7 @@ class MovieDataSource(
                 .subscribe(
                     { response ->
                         updateState(State.DONE)
-                        callback.onResult(response.results,
+                        callback.onResult(response,
                             params.key + 1
                         )
                     },
@@ -60,7 +60,7 @@ class MovieDataSource(
                 )
         )    }
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, MoviesRes.Result>) {
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.yevbes.movieland.databinding.MovieItemBinding
+import com.yevbes.movieland.service.Movie
 import com.yevbes.movieland.service.remote.State
-import com.yevbes.movieland.service.remote.model.res.MoviesRes
 
-class MovieAdapter(private val retry: () -> Unit): PagedListAdapter<MoviesRes.Result, RecyclerView.ViewHolder>(MoviesRes.Result.DIFF_CALLBACK) {
+class MovieAdapter(private val retry: () -> Unit): PagedListAdapter<Movie, RecyclerView.ViewHolder>(Movie.DIFF_CALLBACK) {
 
     private val DATA_VIEW_TYPE = 1
     private val FOOTER_VIEW_TYPE = 2

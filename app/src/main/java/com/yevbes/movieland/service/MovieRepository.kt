@@ -7,11 +7,9 @@ import android.arch.paging.PagedList
 import com.yevbes.movieland.App
 import com.yevbes.movieland.service.local.MovieDao
 import com.yevbes.movieland.service.local.MovieDatabase
-import com.yevbes.movieland.service.local.model.Movie
-import com.yevbes.movieland.service.remote.RestService
-import com.yevbes.movieland.service.remote.ServiceGenerator
 import com.yevbes.movieland.service.remote.State
-import com.yevbes.movieland.service.remote.model.res.MoviesRes
+import com.yevbes.movieland.service.remote.api.RestService
+import com.yevbes.movieland.service.remote.api.ServiceGenerator
 import com.yevbes.movieland.service.remote.paging.MovieDataSource
 import com.yevbes.movieland.service.remote.paging.MovieDataSourceFactory
 import com.yevbes.movieland.utils.ConstantManager
@@ -20,10 +18,9 @@ import io.reactivex.disposables.CompositeDisposable
 object MovieRepository {
     private var movieDao: MovieDao
     private val webservice: RestService
-    var moviesRes: LiveData<PagedList<MoviesRes.Result>>
+    var moviesRes: LiveData<PagedList<Movie>>
     private val movieDataSourceFactory: MovieDataSourceFactory
     private val compositeDisposable : CompositeDisposable = CompositeDisposable()
-
 
     init {
         val database = MovieDatabase.getInstance(App.getApplication())
@@ -39,7 +36,7 @@ object MovieRepository {
             .setInitialLoadSizeHint(ConstantManager.LOADING_PAGE_SIZE * 2)
             .setEnablePlaceholders(false)
             .build()
-        moviesRes = LivePagedListBuilder<Int, MoviesRes.Result>(movieDataSourceFactory, config).build()
+        moviesRes = LivePagedListBuilder<Int, Movie>(movieDataSourceFactory, config).build()
     }
 
     fun getState(): LiveData<State> = Transformations.switchMap<MovieDataSource,
@@ -67,7 +64,6 @@ object MovieRepository {
 
     fun update(movie: Movie) {
         movieDao.update(movie)
-
     }
 
     fun delete(movie: Movie) {
