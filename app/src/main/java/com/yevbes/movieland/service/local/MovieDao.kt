@@ -7,8 +7,11 @@ import com.yevbes.movieland.service.Movie
 @Dao
 interface MovieDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(movie: Movie)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(movies: List<Movie>)
 
     @Update
     fun update(movie: Movie)

@@ -7,9 +7,9 @@ import android.databinding.BindingAdapter
 import android.support.v7.util.DiffUtil
 import android.widget.ImageView
 import com.app.adprogressbarlib.AdCircleProgress
-import com.bumptech.glide.Glide
 import com.google.gson.annotations.SerializedName
 import com.yevbes.movieland.utils.AppConfig
+import com.yevbes.movieland.utils.GlideApp
 
 @Entity(tableName = "movie")
 data class Movie(
@@ -82,7 +82,7 @@ data class Movie(
         @JvmStatic
         @BindingAdapter("app:imageUrl")
         fun setImageUrl(view: ImageView, url: String) {
-            Glide.with(view.context)
+            GlideApp.with(view.context)
                 .load(getImageUrl() +url)
                 //            .placeholder(lottieAnimationView.drawable)
                 .into(view)

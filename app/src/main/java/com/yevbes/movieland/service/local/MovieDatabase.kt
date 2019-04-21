@@ -6,12 +6,11 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 import com.yevbes.movieland.service.Movie
+import timber.log.Timber
 
 @Database(entities = [Movie::class], version = 1)
 abstract class MovieDatabase : RoomDatabase() {
-
     abstract fun movieDao(): MovieDao
-
 
     companion object {
         private lateinit var instance: MovieDatabase
@@ -22,6 +21,7 @@ abstract class MovieDatabase : RoomDatabase() {
                     context.applicationContext,
                     MovieDatabase::class.java, "movie_database"
                 )
+//                        TODO: Remove fallback
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallback)
                     .build()
@@ -32,6 +32,7 @@ abstract class MovieDatabase : RoomDatabase() {
         private val roomCallback = object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
+                Timber.tag("RoomCallback").v("Database is Created")
             }
         }
     }

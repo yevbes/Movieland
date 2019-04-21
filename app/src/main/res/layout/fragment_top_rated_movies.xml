@@ -11,28 +11,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"/>
-
-        <TextView
-                android:id="@+id/tv_error"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="@string/error_tap_to_retry"/>
-
         <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/srl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:onRefreshListener="@{() -> viewModel.onRefresh()}"
-                app:refreshing="@{viewModel.isLoading}"
+
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <!--app:onRefreshListener="@{() -> viewModel.onRefresh()}"-->
+            <!--app:refreshing="@{viewModel.isLoading}"-->
 
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view"

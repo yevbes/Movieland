@@ -1,6 +1,9 @@
 package com.yevbes.movieland
 
 import android.app.Application
+import timber.log.Timber
+
+
 
 /**
  * Best practice
@@ -22,5 +25,10 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         sApplication = this
+
+        // Timber
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 }

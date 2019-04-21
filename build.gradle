@@ -12,6 +12,7 @@ buildscript {
     ext.glide_version = '4.9.0'
     ext.paging_version = '1.0.1'
     ext.circle_progress_version = '1.0'
+    ext.timber_version = '4.7.1'
     repositories {
         google()
         jcenter()

@@ -1,77 +1,159 @@
 package com.yevbes.movieland.service
 
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Transformations
-import android.arch.paging.LivePagedListBuilder
-import android.arch.paging.PagedList
+import android.arch.lifecycle.MutableLiveData
 import com.yevbes.movieland.App
 import com.yevbes.movieland.service.local.MovieDao
 import com.yevbes.movieland.service.local.MovieDatabase
-import com.yevbes.movieland.service.remote.State
 import com.yevbes.movieland.service.remote.api.RestService
 import com.yevbes.movieland.service.remote.api.ServiceGenerator
-import com.yevbes.movieland.service.remote.paging.MovieDataSource
-import com.yevbes.movieland.service.remote.paging.MovieDataSourceFactory
-import com.yevbes.movieland.utils.ConstantManager
+import com.yevbes.movieland.utils.AppConfig
+import io.reactivex.Completable
+import io.reactivex.CompletableObserver
+import io.reactivex.SingleObserver
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
 object MovieRepository {
     private var movieDao: MovieDao
     private val webservice: RestService
-    var moviesRes: LiveData<PagedList<Movie>>
-    private val movieDataSourceFactory: MovieDataSourceFactory
-    private val compositeDisposable : CompositeDisposable = CompositeDisposable()
+    private val moviesLiveData = MutableLiveData<ArrayList<Movie>>()
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     init {
         val database = MovieDatabase.getInstance(App.getApplication())
         movieDao = database.movieDao()
+
         webservice = ServiceGenerator.createService(RestService::class.java)
+        webservice.getTopRatedMovies(AppConfig.LANGUAGE, 1)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : SingleObserver<ArrayList<Movie>> {
+                override fun onSuccess(t: ArrayList<Movie>) {
+                    moviesLiveData.value = t
+                    insertAll(t)
+                }
 
-//        allMovies = movieDao.getAllMovies()
+                override fun onSubscribe(d: Disposable) {
+                    compositeDisposable.add(d)
+                }
 
-        movieDataSourceFactory = MovieDataSourceFactory(compositeDisposable)
+                override fun onError(e: Throwable) {
+                }
 
-        val config = PagedList.Config.Builder()
-            .setPageSize(ConstantManager.LOADING_PAGE_SIZE)
-            .setInitialLoadSizeHint(ConstantManager.LOADING_PAGE_SIZE * 2)
-            .setEnablePlaceholders(false)
-            .build()
-        moviesRes = LivePagedListBuilder<Int, Movie>(movieDataSourceFactory, config).build()
+            }
+            )
     }
 
-    fun getState(): LiveData<State> = Transformations.switchMap<MovieDataSource,
-            State>(movieDataSourceFactory.liveData, MovieDataSource::state)
-
-    fun retry() {
-        movieDataSourceFactory.liveData.value?.retry()
-    }
-
-    fun invalidate(){
-        movieDataSourceFactory.liveData.value?.invalidate()
-    }
-
-    fun listIsEmpty(): Boolean {
-        return moviesRes.value?.isEmpty() ?: true
+    fun getMovies(): LiveData<ArrayList<Movie>> {
+        return moviesLiveData
     }
 
     fun disposeCompositeDisposable() {
         compositeDisposable.dispose()
     }
 
+    fun insertAll(movies: List<Movie>) {
+
+        Completable.fromAction{
+            movieDao.insertAll(movies)
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : CompletableObserver {
+                override fun onComplete() {
+                    Timber.tag("OK ->").v("OK on insert movies to DB")
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    compositeDisposable.add(d)
+                }
+
+                override fun onError(e: Throwable) {
+                    Timber.tag("Error ->").e("Error on insert movies to DB")
+                }
+            })
+    }
+
     fun insert(movie: Movie) {
-        movieDao.insert(movie)
+        Completable.fromAction {
+            movieDao.insert(movie)
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : CompletableObserver {
+                override fun onComplete() {
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    compositeDisposable.add(d)
+                }
+
+                override fun onError(e: Throwable) {
+                }
+            })
     }
 
     fun update(movie: Movie) {
-        movieDao.update(movie)
+        Completable.fromAction {
+            movieDao.update(movie)
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : CompletableObserver {
+                override fun onComplete() {
+
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    compositeDisposable.add(d)
+                }
+
+                override fun onError(e: Throwable) {
+                }
+            })
     }
 
     fun delete(movie: Movie) {
-        movieDao.delete(movie)
+        Completable.fromAction {
+            movieDao.delete(movie)
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : CompletableObserver {
+                override fun onComplete() {
+
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    compositeDisposable.add(d)
+                }
+
+                override fun onError(e: Throwable) {
+                }
+            })
     }
 
     fun deleteAllMovies() {
-        movieDao.deleteAllMovies()
+        Completable.fromAction {
+            movieDao.deleteAllMovies()
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : CompletableObserver {
+                override fun onComplete() {
+
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    compositeDisposable.add(d)
+                }
+
+                override fun onError(e: Throwable) {
+                }
+            })
     }
-    
 }
