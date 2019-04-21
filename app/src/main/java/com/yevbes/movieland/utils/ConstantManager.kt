@@ -15,6 +15,6 @@ interface ConstantManager {
         const val ACTION_FAVORITE_MOVIES = 2
 
         // Paging
-        const val LOADING_PAGE_SIZE = 5
+        const val LOADING_PAGE_SIZE = 3
     }
 }

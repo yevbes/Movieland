@@ -2,6 +2,7 @@ package com.yevbes.movieland.view.ui
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.arch.paging.PagedList
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
@@ -21,7 +22,7 @@ class TopRatedMoviesFragment : Fragment() {
     private lateinit var binding: FragmentTopRatedMoviesBinding
 
     private val movieAdapter: MovieAdapter by lazy {
-        MovieAdapter(arrayListOf())
+        MovieAdapter()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,9 +53,13 @@ class TopRatedMoviesFragment : Fragment() {
         recycler_view.adapter = movieAdapter
 
         // Observer for movies list
-        topRatedMovieViewModel.getAllMovies().observe(this,
-            Observer<ArrayList<Movie>> { t ->
+        /*topRatedMovieViewModel.getAllMovies().observe(this,
+            Observer<List<Movie>> { t ->
                 movieAdapter.setMovieItems(t!!)
+            })*/
+        topRatedMovieViewModel.getPagedListLiveData().observe(this,
+            Observer<PagedList<Movie>> {
+                movieAdapter.submitList(it)
             })
 
     }

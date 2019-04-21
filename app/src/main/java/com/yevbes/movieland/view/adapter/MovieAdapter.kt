@@ -1,19 +1,15 @@
 package com.yevbes.movieland.view.adapter
 
-import android.support.v7.widget.RecyclerView
+import android.arch.paging.PagedListAdapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.yevbes.movieland.databinding.MovieItemBinding
 import com.yevbes.movieland.service.Movie
 
-class MovieAdapter(private var movies: ArrayList<Movie>) : RecyclerView.Adapter<MovieViewHolder>() {
+class MovieAdapter : PagedListAdapter<Movie, MovieViewHolder>(Movie.DIFF_CALLBACK) {
 
     override fun onBindViewHolder(p0: MovieViewHolder, p1: Int) {
-        p0.bind(movies[p1])
-    }
-
-    override fun getItemCount(): Int {
-        return movies.size
+        p0.bind(getItem(p1)!!)
     }
 
     /**
@@ -23,11 +19,6 @@ class MovieAdapter(private var movies: ArrayList<Movie>) : RecyclerView.Adapter<
         val layoutInflater = LayoutInflater.from(p0.context)
         val rowBinding = MovieItemBinding.inflate(layoutInflater, p0, false)
         return MovieViewHolder(rowBinding)
-    }
-
-    fun setMovieItems(movies: ArrayList<Movie>){
-        this.movies = movies
-        notifyDataSetChanged()
     }
 
 }

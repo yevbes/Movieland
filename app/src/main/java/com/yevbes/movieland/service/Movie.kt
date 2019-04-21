@@ -82,10 +82,11 @@ data class Movie(
         @JvmStatic
         @BindingAdapter("app:imageUrl")
         fun setImageUrl(view: ImageView, url: String) {
-            GlideApp.with(view.context)
-                .load(getImageUrl() +url)
-                //            .placeholder(lottieAnimationView.drawable)
-                .into(view)
+                GlideApp.with(view.context)
+                    .load(getImageUrl() + url)
+                    //            .placeholder(lottieAnimationView.drawable)
+                    .into(view)
+
         }
 
         @JvmStatic
