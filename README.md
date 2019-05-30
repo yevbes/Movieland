@@ -6,7 +6,7 @@ A simple movie manager application
 ## Architecture MVVM
 <img src="https://developer.android.com/topic/libraries/architecture/images/final-architecture.png" width="400">
 
-## Library used
+## Libraries used
 *   RxJava
 *   Room
 *   Retrofit
